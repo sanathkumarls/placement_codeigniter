@@ -115,12 +115,22 @@ class Userapi extends CI_Controller {
         $user_token=$this->input->post('user_token');
         if($user_token != null)
         {
-            $result[]=$this->Users->get_user_by_token($user_token);
-            foreach ($result as $row)
+            $this->load->model('Users');
+            if($this->Users->is_token_exists($user_token))
             {
-                $row['result']="success";
+                $result[]=$this->Users->get_user_by_token($user_token);
+                foreach ($result as $row)
+                {
+                    $row['result']="success";
+                    echo json_encode($row);
+                }
+            }
+            else
+            {
+                $row['result']="failure";
                 echo json_encode($row);
             }
+
         }
     }
 

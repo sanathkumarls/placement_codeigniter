@@ -71,10 +71,27 @@ class Users extends CI_Model {
 
     //function session
 
+    function is_token_exists($token)
+    {
+        $this->db->select('*');
+        $this->db->where('user_token',$token);
+        $this->db->where('isactive',1);
+        $result=$this->db->get("users");
+        if($result->num_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     function get_user_by_token($token)
     {
         $this->db->select('*');
         $this->db->where('user_token',$token);
+        $this->db->where('isactive',1);
         $result=$this->db->get("users");
         return $result->result();
     }
