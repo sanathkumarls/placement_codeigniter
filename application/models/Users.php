@@ -8,6 +8,7 @@
 
 class Users extends CI_Model {
 
+// function register
 
     function email_exists_active($email)
     {
@@ -27,7 +28,7 @@ class Users extends CI_Model {
     function email_exists_notactive($email)
     {
         $this->db->where('user_email',$email);
-        $this->db->where('isactive',1);
+        $this->db->where('isactive',0);
         $query = $this->db->get('users');
         if($query->num_rows() > 0)
         {
@@ -56,6 +57,26 @@ class Users extends CI_Model {
     function add_new_user($data)
     {
         $this->db->insert("users",$data);
+    }
+
+
+    // function activate_user
+
+
+    function activate($data,$email)
+    {
+        $this->db->where('user_email',$email);
+        $this->db->update("users",$data);
+    }
+
+    //function session
+
+    function get_user_by_token($token)
+    {
+        $this->db->select('*');
+        $this->db->where('user_token',$token);
+        $result=$this->db->get("users");
+        return $result->result();
     }
 
 }

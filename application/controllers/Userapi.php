@@ -28,7 +28,7 @@ class Userapi extends CI_Controller {
         $user_name=$this->input->post('user_name');
         $user_email=$this->input->post('user_email');
         $user_usn=$this->input->post('user_usn');
-        $user_phone=$this->input->post('user_name');
+        $user_phone=$this->input->post('user_phone');
         $user_password=hash("SHA512",$this->input->post('user_password'));
         $user_token=$this->input->post('user_token');
         $user_device=$this->input->post('user_device');
@@ -67,7 +67,7 @@ class Userapi extends CI_Controller {
 
                 //
 
-                $result=$this->Users->get_user_by_email($user_email);
+                $result[]=$this->Users->get_user_by_email($user_email);
                 foreach ($result as $row)
                 {
                     $row['result']="success";
@@ -77,12 +77,12 @@ class Userapi extends CI_Controller {
             }
 
             //add new user
-            $this->users->add_new_user($data);
+            $this->Users->add_new_user($data);
             //send otp through mail
 
 
             //
-            $result=$this->Users->get_user_by_email($user_email);
+            $result[]=$this->Users->get_user_by_email($user_email);
             foreach ($result as $row)
             {
                 $row['result']="success";
@@ -91,5 +91,71 @@ class Userapi extends CI_Controller {
             return;
 
         }
+    }
+
+    public function activate_user()
+    {
+        $user_email=$this->input->post('user_email');
+
+        if($user_email != null)
+        {
+            $this->load->model('Users');
+            $data = array(
+                'isactive'=> 1
+            );
+            $this->Users->activate($data,$user_email);
+            $response['result']="success";
+            echo json_encode($response);
+
+        }
+    }
+
+    public  function session()
+    {
+        $user_token=$this->input->post('user_token');
+        if($user_token != null)
+        {
+            $result[]=$this->Users->get_user_by_token($user_token);
+            foreach ($result as $row)
+            {
+                $row['result']="success";
+                echo json_encode($row);
+            }
+        }
+    }
+
+    public  function login()
+    {
+
+    }
+
+    public  function logout()
+    {
+
+    }
+
+    public function change_password()
+    {
+
+    }
+
+    public function firebase()
+    {
+
+    }
+
+    public function forgot_password()
+    {
+
+    }
+
+    public function notifications()
+    {
+
+    }
+
+    public function update_password()
+    {
+
     }
 }
