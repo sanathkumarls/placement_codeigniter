@@ -191,8 +191,8 @@ class Userapi extends CI_Controller {
         $user_device=$this->input->post('user_device');
         $data = array(
 
-            'user_token' => $user_token,
-            'user_device' => $user_device
+            'token' => $user_token,
+            'device' => $user_device
         );
         $this->load->model('Firebase');
         $this->Firebase->add_new_token($data);
