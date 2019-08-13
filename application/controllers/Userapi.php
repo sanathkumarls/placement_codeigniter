@@ -165,17 +165,37 @@ class Userapi extends CI_Controller {
 
     public  function logout()
     {
-
+        $user_email=$this->input->post('user_email');
+        if($user_email != null)
+        {
+            $this->load->model('Users');
+            $data = array(
+                'user_token'=> ''
+            );
+            $this->Users->update_token($data,$user_email);
+            $response['result']="success";
+            echo json_encode($response);
+        }
+        else
+        {
+            $response['result']="failure";
+            $response['message']="Logout Failed";
+            echo json_encode($response);
+        }
     }
 
-    public function change_password()
-    {
-
-    }
 
     public function firebase()
     {
+        $user_token=$this->input->post('user_token');
+        $user_device=$this->input->post('user_device');
+        $data = array(
 
+            'user_token' => $user_token,
+            'user_device' => $user_device
+        );
+        $this->load->model('Firebase');
+        $this->Firebase->add_new_token($data);
     }
 
     public function forgot_password()
@@ -189,6 +209,11 @@ class Userapi extends CI_Controller {
     }
 
     public function update_password()
+    {
+
+    }
+
+    public function change_password()
     {
 
     }

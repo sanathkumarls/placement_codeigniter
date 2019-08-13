@@ -121,4 +121,5 @@ class Users extends CI_Model {
         $this->db->update("users",$data);
     }
 
+
 }
