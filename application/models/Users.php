@@ -1,0 +1,61 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: sanathls
+ * Date: 2019-08-13
+ * Time: 22:18
+ */
+
+class Users extends CI_Model {
+
+
+    function email_exists_active($email)
+    {
+        $this->db->where('user_email',$email);
+        $this->db->where('isactive',1);
+        $query = $this->db->get('users');
+        if($query->num_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function email_exists_notactive($email)
+    {
+        $this->db->where('user_email',$email);
+        $this->db->where('isactive',1);
+        $query = $this->db->get('users');
+        if($query->num_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function update_otp_as_new($data,$email)
+    {
+        $this->db->where('user_email',$email);
+        $this->db->update("users",$data);
+    }
+
+    function get_user_by_email($email)
+    {
+        $this->db->select('*');
+        $this->db->where('user_email',$email);
+        $result=$this->db->get("users");
+        return $result->result();
+    }
+
+    function add_new_user($data)
+    {
+        $this->db->insert("users",$data);
+    }
+
+}
