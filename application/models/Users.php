@@ -96,4 +96,29 @@ class Users extends CI_Model {
         return $result->result();
     }
 
+    //function login
+
+    function can_login($email,$password)
+    {
+        $this->db->select('*');
+        $this->db->where('user_email',$email);
+        $this->db->where('user_password',$password);
+        $this->db->where('isactive',1);
+        $result=$this->db->get("users");
+        if($result->num_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function update_token($data,$email)
+    {
+        $this->db->where('user_email',$email);
+        $this->db->update("users",$data);
+    }
+
 }

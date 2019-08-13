@@ -88,7 +88,6 @@ class Userapi extends CI_Controller {
                 $row['result']="success";
                 echo json_encode($row);
             }
-            return;
 
         }
     }
@@ -136,7 +135,32 @@ class Userapi extends CI_Controller {
 
     public  function login()
     {
-
+        $user_email=$this->input->post('user_email');
+        $user_password=hash("SHA512",$this->input->post('user_password'));
+        $user_token=$this->input->post('user_token');
+        if($user_email != null && $user_password != null && $user_token != null)
+        {
+            $this->load->model('Users');
+            if($this->Users->can_login($user_email,$user_password))
+            {
+                $data = array(
+                    'user_token'=> $user_token
+                );
+                $this->Users->update_token($data,$user_email);
+                $result[]=$this->Users->get_user_by_email($user_email);
+                foreach ($result as $row)
+                {
+                    $row['result']="success";
+                    echo json_encode($row);
+                }
+            }
+            else
+            {
+                $response['result']="failure";
+                $response['message']="Invalid Username Or Password";
+                echo json_encode($response);
+            }
+        }
     }
 
     public  function logout()
