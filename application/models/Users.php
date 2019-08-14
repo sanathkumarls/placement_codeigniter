@@ -121,5 +121,32 @@ class Users extends CI_Model {
         $this->db->update("users",$data);
     }
 
+    //function update_password
+
+    function update_password($data,$email)
+    {
+        $this->db->where('user_email',$email);
+        $this->db->update("users",$data);
+    }
+
+    //function change_password
+
+    function check_old_password($email,$password)
+    {
+        $this->db->select('*');
+        $this->db->where('user_email',$email);
+        $this->db->where('user_password',$password);
+        $result=$this->db->get("users");
+        if($result->num_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 
 }

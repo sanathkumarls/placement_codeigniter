@@ -253,20 +253,93 @@ class Userapi extends CI_Controller {
                 echo json_encode($response);
             }
         }
+        else
+        {
+            echo "Data is Secure";
+        }
     }
 
     public function forgot_password()
     {
-
+        $user_email=$this->input->post('user_email');
+        $user_otp=rand(1000,9999);
+        $sub="Password Reset";
+        $msg="Your OTP For Password Reset Is : ".$user_otp;
+        if($user_email != null)
+        {
+            $this->load->model('Users');
+            if($this->Users->email_exists_active($user_email))
+            {
+                $data = array(
+                    'user_otp' => $user_otp
+                );
+                $this->Users->update_otp_as_new($data,$user_email);
+                //send otp here
+                $this->load->model('Email');
+                if(!$this->Email->sendmail($user_email,$sub,$msg))
+                {
+                    $response['result']="failure";
+                    $response['message']="Server Error Try Later";
+                    echo json_encode($response);
+                    return;
+                }
+                $result[]=$this->Users->get_user_by_email($user_email);
+                foreach ($result as $row)
+                {
+                    $row['result']="success";
+                    echo json_encode($row);
+                }
+            }
+            else
+            {
+                $response['result']="failure";
+                $response['message']="Email Not Registered";
+                echo json_encode($response);
+            }
+        }
+        else
+        {
+            echo "Data is Secure";
+        }
     }
 
     public function update_password()
     {
-
+        $user_email=$this->input->post('user_email');
+        $user_password=hash("SHA512",$this->input->post('user_password'));
+        $data = array(
+            'user_email' => $user_email,
+            'user_password' => $user_password
+        );
+        if($user_email != null && $user_password != null)
+        {
+            $this->load->model('Users');
+            $this->Users->update_password($data,$user_email);
+            $response['result']="success";
+            echo json_encode($response);
+        }
     }
 
     public function change_password()
     {
-
+        $user_email=$this->input->post('user_email');
+        $user_password=hash("SHA512",$this->input->post('user_password'));
+        $new_password=hash("SHA512",$this->input->post('new_password'));
+        $this->load->model('Users');
+        if($this->Users->check_old_password($user_email,$user_password))
+        {
+            $data = array(
+                'user_password' => $new_password
+            );
+            $this->Users->update_password($data,$user_email);
+            $response['result']="success";
+            echo json_encode($response);
+        }
+        else
+        {
+            $response['result']="failure";
+            $response['message']="Old Password Not Matching";
+            echo json_encode($response);
+        }
     }
 }
