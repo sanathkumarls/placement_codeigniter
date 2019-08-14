@@ -213,12 +213,49 @@ class Userapi extends CI_Controller {
         $this->Firebase->add_new_token($data);
     }
 
-    public function forgot_password()
-    {
-
-    }
 
     public function notifications()
+    {
+        $user_email=$this->input->post('user_email');
+        //$user_email="sanathlslokanathapura@gmail.com";
+        $this->load->model('Users');
+        if($user_email != null)
+        {
+            if($this->Users->email_exists_active($user_email))
+            {
+                $this->load->model('Notifications');
+                if($this->Notifications->have_notifications())
+                {
+                    $result=$this->Notifications->get_notifications();
+                    $i=0;
+                    $response['result']="success";
+                    foreach ($result->result() as $row)
+                    {
+                        $response['title'.$i]=$row->title;
+                        $response['description'.$i]=$row->description;
+                        $response['link'.$i]=$row->link;
+                        $i++;
+                    }
+                    $response['size']=$i;
+                    echo json_encode($response);
+                }
+                else
+                {
+                    $response['result']="failure";
+                    $response['message']="No Notifications";
+                    echo json_encode($response);
+                }
+            }
+            else
+            {
+                $response['result']="failure";
+                $response['message']="Login Again";
+                echo json_encode($response);
+            }
+        }
+    }
+
+    public function forgot_password()
     {
 
     }
