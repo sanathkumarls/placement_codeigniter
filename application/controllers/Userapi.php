@@ -57,16 +57,24 @@ class Userapi extends CI_Controller {
                 echo json_encode($response);
                 return;
             }
+
+            $sub="Thank You For Registering";
+            $msg="Your OTP For Registration Is : ".$user_otp;
+
             //update otp and send mail
             if($this->Users->email_exists_notactive($user_email))
             {
                 $this->Users->update_otp_as_new($data,$user_email);
                 //send otp here
-
-
-
+                $this->load->model('Email');
+                if(!$this->Email->sendmail($user_email,$sub,$msg))
+                {
+                    $response['result']="failure";
+                    $response['message']="Server Error Try Later";
+                    echo json_encode($response);
+                    return;
+                }
                 //
-
                 $result[]=$this->Users->get_user_by_email($user_email);
                 foreach ($result as $row)
                 {
@@ -79,7 +87,14 @@ class Userapi extends CI_Controller {
             //add new user
             $this->Users->add_new_user($data);
             //send otp through mail
-
+            $this->load->model('Email');
+            if(!$this->Email->sendmail($user_email,$sub,$msg))
+            {
+                $response['result']="failure";
+                $response['message']="Server Error Try Later";
+                echo json_encode($response);
+                return;
+            }
 
             //
             $result[]=$this->Users->get_user_by_email($user_email);
