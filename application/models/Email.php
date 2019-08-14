@@ -9,20 +9,18 @@
 class Email extends CI_Model {
 
 
-    public function sendmail($to)
+    public function sendmail($to,$sub,$msg)
     {
 
-        $from="internship@manyathy.com";
-        $name="Manyathy Business Solutions";
-        $subject="Thank You For Registering";
-        $body="";
+        $from="";
+        $name="";
         //mail
         $config=array(
             'protocol' => 'smtp',
-            'smtp_host' => 'mail.manyathy.com',
+            'smtp_host' => '',
             'smtp_port' => '587',
-            'smtp_user' => 'internship@manyathy.com',
-            'smtp_pass' => 'manyathy@admin',
+            'smtp_user' => '',
+            'smtp_pass' => '',
             'mailtype' => 'html',
             'charset' => 'iso-8859-1',
             'wordwrap' => TRUE
@@ -31,13 +29,12 @@ class Email extends CI_Model {
         $this->email->set_newline("\r\n");
         $this->email->from($from,$name);
         $this->email->to($to);
-        $this->email->subject($subject);
-        $this->email->message($body);
+        $this->email->subject($sub);
+        $this->email->message($msg);
         if($this->email->send())
         {
-            //redirect(base_url()."internship/registered");
+            return true;
         }
-        redirect(base_url()."internship/registered");
-
+        return false;
     }
 }
