@@ -318,6 +318,11 @@ class Userapi extends CI_Controller {
             $response['result']="success";
             echo json_encode($response);
         }
+        $sub="Password Updated Successfully";
+        $msg="You Have Successfully Updated Password For SDMIT Placement";
+        $this->load->model('Email');
+        $this->Email->sendmail($user_email,$sub,$msg);
+
     }
 
     public function change_password()
@@ -334,6 +339,10 @@ class Userapi extends CI_Controller {
             $this->Users->update_password($data,$user_email);
             $response['result']="success";
             echo json_encode($response);
+            $sub="Password Updated Successfully";
+            $msg="You Have Successfully Updated Password For SDMIT Placement";
+            $this->load->model('Email');
+            $this->Email->sendmail($user_email,$sub,$msg);
         }
         else
         {
