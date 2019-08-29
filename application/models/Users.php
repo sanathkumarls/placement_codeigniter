@@ -147,6 +147,23 @@ class Users extends CI_Model {
         }
     }
 
+// function Adminapi->send_notification
+
+    public function is_admin($email)
+    {
+        $this->db->select('*');
+        $this->db->where('user_email',$email);
+        $result=$this->db->get("users");
+        if($result->num_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
 
 }

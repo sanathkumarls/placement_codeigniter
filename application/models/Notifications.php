@@ -27,4 +27,9 @@ class Notifications extends CI_Model {
         return $result;
     }
 
+    function  put_notification($data)
+    {
+        $this->db->insert("notifications",$data);
+    }
+
 }

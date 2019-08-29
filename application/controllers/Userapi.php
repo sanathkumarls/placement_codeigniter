@@ -74,7 +74,6 @@ class Userapi extends CI_Controller {
                     echo json_encode($response);
                     return;
                 }
-                //
                 $result[]=$this->Users->get_user_by_email($user_email);
                 foreach ($result as $row)
                 {
@@ -86,6 +85,17 @@ class Userapi extends CI_Controller {
 
             //add new user
             $this->Users->add_new_user($data);
+            //create marks row by userid
+			$values[]=$this->Users->get_user_by_email($user_email);
+			foreach ($values as $row)
+			{
+				$id = $row[0]->id;
+			}
+			$var = array(
+				'user_id' => $id
+			);
+			$this->load->model('Marks');
+			$this->Marks->create_marks($var);
             //send otp through mail
             $this->load->model('Email');
             if(!$this->Email->sendmail($user_email,$sub,$msg))
@@ -351,4 +361,6 @@ class Userapi extends CI_Controller {
             echo json_encode($response);
         }
     }
+
+
 }

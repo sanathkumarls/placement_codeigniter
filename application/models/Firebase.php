@@ -13,4 +13,11 @@ class Firebase extends CI_Model {
         $this->db->insert("firebase",$data);
     }
 
+    function get_token()
+    {
+        $this->db->select('token');
+        $result=$this->db->get("firebase");
+        return $result;
+    }
+
 }
