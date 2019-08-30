@@ -362,5 +362,33 @@ class Userapi extends CI_Controller {
         }
     }
 
+    public function get_marks()
+	{
+		$user_email=$this->input->post('user_email');
+		if($user_email != null)
+		{
+			$this->load->model('Users');
+			if ($this->Users->email_exists_active($user_email))
+			{
+				$this->load->model('Marks');
+				$response[]=$this->Marks->get_marks($user_email);
+				foreach ($response as $row)
+				{
+					$row['result']="success";
+					echo json_encode($row);
+				}
+			}
+			else
+			{
+				$response['result']="failure";
+				$response['message']="Email Does Not Exist";
+				echo json_encode($response);
+			}
+		}
+		else
+		{
+			echo "data is secure";
+		}
+	}
 
 }
