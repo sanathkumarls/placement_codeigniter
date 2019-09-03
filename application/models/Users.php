@@ -46,6 +46,12 @@ class Users extends CI_Model {
         $this->db->update("users",$data);
     }
 
+	function update_name_and_usn($data,$email)
+	{
+		$this->db->where('user_email',$email);
+		$this->db->update("users",$data);
+	}
+
     function get_user_by_email($email)
     {
         $this->db->select('*');

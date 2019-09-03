@@ -15,6 +15,12 @@ class Marks extends CI_Model
 		return $result->result();
 	}
 
+	function update_marks($data,$user_id)
+	{
+		$this->db->where('user_id',$user_id);
+		$this->db->update("marks",$data);
+	}
+
 
 	//
 }

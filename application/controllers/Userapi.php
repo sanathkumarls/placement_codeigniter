@@ -391,4 +391,61 @@ class Userapi extends CI_Controller {
 		}
 	}
 
+	public function update_marks_and_name()
+	{
+		$user_email=$this->input->post('user_email');
+		$user_name=$this->input->post('user_name');
+		$user_usn=$this->input->post('user_usn');
+		$sslc=$this->input->post('sslc');
+		$puc=$this->input->post('puc');
+		$sem1=$this->input->post('sem1');
+		$sem2=$this->input->post('sem2');
+		$sem3=$this->input->post('sem3');
+		$sem4=$this->input->post('sem4');
+		$sem5=$this->input->post('sem5');
+		$sem6=$this->input->post('sem6');
+		$sem7=$this->input->post('sem7');
+		$cgpa=$this->input->post('cgpa');
+
+
+		if($user_email != null && $user_name != null && $user_usn != null && $sslc != null && $puc != null && $sem1 != null && $sem2 != null && $sem3 != null && $sem4 != null && $sem5 != null && $sem6 != null && $sem7 != null && $cgpa != null)
+		{
+			//update name and usn
+			$data = array(
+				'user_name'=> $user_name,
+				'user_usn' => $user_usn
+			);
+			$this->load->model('Users');
+			$this->Users->update_name_and_usn($data,$user_email);
+
+			//get id and pass
+			$result=$this->Users->get_user_by_email($user_email);
+			foreach ($result as $row)
+			$user_id=$row->id;
+			$this->load->model('Marks');
+			$marks = array(
+				'sslc' => $sslc,
+				'puc' => $puc,
+				'sem1' => $sem1,
+				'sem2' => $sem2,
+				'sem3' => $sem3,
+				'sem4' => $sem4,
+				'sem5' => $sem5,
+				'sem6' => $sem6,
+				'sem7' => $sem7,
+				'cgpa' => $cgpa
+			);
+			$this->Marks->update_marks($marks,$user_id);
+			$response['result']="success";
+			echo json_encode($response);
+		}
+		else
+		{
+			$response['result']="failure";
+			$response['message']="All Fields Are Mandatory";
+			echo json_encode($response);
+		}
+
+	}
+
 }
