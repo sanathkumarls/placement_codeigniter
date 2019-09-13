@@ -119,7 +119,7 @@ class Adminapi extends CI_Controller
 
 	public function filter_marks()
 	{
-		$user_email=$this->input->post('user_email');
+		$admin_email=$this->input->post('user_email');
 		$sslc=$this->input->post('sslc');
 		$sslc_score=$this->input->post('sslc_score');
 		$puc=$this->input->post('puc');
@@ -128,10 +128,10 @@ class Adminapi extends CI_Controller
 		$sgpa_score=$this->input->post('sgpa_score');
 
 
-		if($user_email != null)
+		if($admin_email != null)
 		{
 			$this->load->Model('Users');
-			if ($this->Users->is_admin($user_email))
+			if ($this->Users->is_admin($admin_email))
 			{
 				$this->load->Model('Users');
 				if($sslc == "yes" && $puc == "no" && $sgpa == "no")
@@ -185,9 +185,12 @@ class Adminapi extends CI_Controller
 		{
 			echo "empty request";
 		}
+	}
 
-
-
+	public function version()
+	{
+		$result['versioncode']=1;
+		echo json_encode($result);
 	}
 
 }
