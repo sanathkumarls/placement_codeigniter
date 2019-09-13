@@ -117,4 +117,77 @@ class Adminapi extends CI_Controller
 
     }
 
+	public function filter_marks()
+	{
+		$user_email=$this->input->post('user_email');
+		$sslc=$this->input->post('sslc');
+		$sslc_score=$this->input->post('sslc_score');
+		$puc=$this->input->post('puc');
+		$puc_score=$this->input->post('puc_score');
+		$sgpa=$this->input->post('puc');
+		$sgpa_score=$this->input->post('sgpa_score');
+
+
+		if($user_email != null)
+		{
+			$this->load->Model('Users');
+			if ($this->Users->is_admin($user_email))
+			{
+				$this->load->Model('Users');
+				if($sslc == "yes" && $puc == "no" && $sgpa == "no")
+				{
+					//filter by sslc only
+				}
+				elseif ($sslc == "no" && $puc == "yes" && $sgpa == "no")
+				{
+					//filter by puc only
+				}
+				elseif ($sslc == "no" && $puc == "no" && $sgpa == "yes")
+				{
+					//filter by sgpa only
+				}
+				elseif ($sslc == "yes" && $puc == "yes" && $sgpa == "no")
+				{
+					//filter by sslc and puc only
+				}
+				elseif ($sslc == "yes" && $puc == "no" && $sgpa == "yes")
+				{
+					//filter by sslc and sgpa only
+				}
+				elseif ($sslc == "no" && $puc == "yes" && $sgpa == "yes")
+				{
+					//filter by puc and sgpa only
+				}
+				elseif ($sslc == "yes" && $puc == "yes" && $sgpa == "yes")
+				{
+					//filter by sslc , puc and sgpa
+				}
+				elseif($sslc == "no" && $puc == "no" && $sgpa == "no")
+				{
+					//view all users
+				}
+				else
+				{
+					//invalid params
+					$response['result']="failure";
+					$response['message']="Invalid Params";
+					echo json_encode($response);
+				}
+			}
+			else
+			{
+				$response['result']="failure";
+				$response['message']="Access Is Denied";
+				echo json_encode($response);
+			}
+		}
+		else
+		{
+			echo "empty request";
+		}
+
+
+
+	}
+
 }

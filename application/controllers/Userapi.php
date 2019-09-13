@@ -448,48 +448,4 @@ class Userapi extends CI_Controller {
 
 	}
 
-	public function filter_marks()
-	{
-		$sslc=$this->input->post('sslc');
-		$sslc_score=$this->input->post('sslc_score');
-		$puc=$this->input->post('puc');
-		$puc_score=$this->input->post('puc_score');
-		$sgpa=$this->input->post('puc');
-		$sgpa_score=$this->input->post('sgpa_score');
-
-		if($sslc == "yes" && $puc == "no" && $sgpa == "no")
-		{
-			//filter by sslc only
-		}
-		elseif ($sslc == "no" && $puc == "yes" && $sgpa == "no")
-		{
-			//filter by puc only
-		}
-		elseif ($sslc == "no" && $puc == "no" && $sgpa == "yes")
-		{
-			//filter by sgpa only
-		}
-		elseif ($sslc == "yes" && $puc == "yes" && $sgpa == "no")
-		{
-			//filter by sslc and puc only
-		}
-		elseif ($sslc == "yes" && $puc == "no" && $sgpa == "yes")
-		{
-			//filter by sslc and sgpa only
-		}
-		elseif ($sslc == "no" && $puc == "yes" && $sgpa == "yes")
-		{
-			//filter by puc and sgpa only
-		}
-		elseif ($sslc == "yes" && $puc == "yes" && $sgpa == "yes")
-		{
-			//filter by sslc , puc and sgpa
-		}
-		else
-		{
-			//invalid params
-		}
-
-	}
-
 }
