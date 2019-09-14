@@ -117,15 +117,15 @@ class Adminapi extends CI_Controller
 
     }
 
-	public function filter_marks()
+	public function filter_users()
 	{
 		$admin_email=$this->input->post('user_email');
 		$sslc=$this->input->post('sslc');
 		$sslc_score=$this->input->post('sslc_score');
 		$puc=$this->input->post('puc');
 		$puc_score=$this->input->post('puc_score');
-		$sgpa=$this->input->post('puc');
-		$sgpa_score=$this->input->post('sgpa_score');
+		$cgpa=$this->input->post('cgpa');
+		$cgpa_score=$this->input->post('cgpa_score');
 
 
 		if($admin_email != null)
@@ -134,35 +134,35 @@ class Adminapi extends CI_Controller
 			if ($this->Users->is_admin($admin_email))
 			{
 				$this->load->Model('Users');
-				if($sslc == "yes" && $puc == "no" && $sgpa == "no")
+				if($sslc == "yes" && $puc == "no" && $cgpa == "no")
 				{
 					//filter by sslc only
 				}
-				elseif ($sslc == "no" && $puc == "yes" && $sgpa == "no")
+				elseif ($sslc == "no" && $puc == "yes" && $cgpa == "no")
 				{
 					//filter by puc only
 				}
-				elseif ($sslc == "no" && $puc == "no" && $sgpa == "yes")
+				elseif ($sslc == "no" && $puc == "no" && $cgpa == "yes")
 				{
 					//filter by sgpa only
 				}
-				elseif ($sslc == "yes" && $puc == "yes" && $sgpa == "no")
+				elseif ($sslc == "yes" && $puc == "yes" && $cgpa == "no")
 				{
 					//filter by sslc and puc only
 				}
-				elseif ($sslc == "yes" && $puc == "no" && $sgpa == "yes")
+				elseif ($sslc == "yes" && $puc == "no" && $cgpa == "yes")
 				{
 					//filter by sslc and sgpa only
 				}
-				elseif ($sslc == "no" && $puc == "yes" && $sgpa == "yes")
+				elseif ($sslc == "no" && $puc == "yes" && $cgpa == "yes")
 				{
 					//filter by puc and sgpa only
 				}
-				elseif ($sslc == "yes" && $puc == "yes" && $sgpa == "yes")
+				elseif ($sslc == "yes" && $puc == "yes" && $cgpa == "yes")
 				{
 					//filter by sslc , puc and sgpa
 				}
-				elseif($sslc == "no" && $puc == "no" && $sgpa == "no")
+				elseif($sslc == "no" && $puc == "no" && $cgpa == "no")
 				{
 					//view all users
 				}
