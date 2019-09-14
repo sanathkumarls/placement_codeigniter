@@ -119,7 +119,7 @@ class Adminapi extends CI_Controller
 
 	public function filter_users()
 	{
-		$admin_email=$this->input->post('user_email');
+		$admin_email=$this->input->post('admin_email');
 		$sslc=$this->input->post('sslc');
 		$sslc_score=$this->input->post('sslc_score');
 		$puc=$this->input->post('puc');
@@ -137,34 +137,58 @@ class Adminapi extends CI_Controller
 				if($sslc == "yes" && $puc == "no" && $cgpa == "no")
 				{
 					//filter by sslc only
+					$response['result']="failure";
+					$response['message']="filter by sslc only";
+					echo json_encode($response);
 				}
 				elseif ($sslc == "no" && $puc == "yes" && $cgpa == "no")
 				{
 					//filter by puc only
+					$response['result']="failure";
+					$response['message']="filter by puc only";
+					echo json_encode($response);
 				}
 				elseif ($sslc == "no" && $puc == "no" && $cgpa == "yes")
 				{
-					//filter by sgpa only
+					//filter by cgpa only
+					$response['result']="failure";
+					$response['message']="filter by cgpa only";
+					echo json_encode($response);
 				}
 				elseif ($sslc == "yes" && $puc == "yes" && $cgpa == "no")
 				{
 					//filter by sslc and puc only
+					$response['result']="failure";
+					$response['message']="filter by sslc and puc only";
+					echo json_encode($response);
 				}
 				elseif ($sslc == "yes" && $puc == "no" && $cgpa == "yes")
 				{
-					//filter by sslc and sgpa only
+					//filter by sslc and cgpa only
+					$response['result']="failure";
+					$response['message']="filter by sslc and cgpa only";
+					echo json_encode($response);
 				}
 				elseif ($sslc == "no" && $puc == "yes" && $cgpa == "yes")
 				{
-					//filter by puc and sgpa only
+					//filter by puc and cgpa only
+					$response['result']="failure";
+					$response['message']="filter by puc and cgpa only";
+					echo json_encode($response);
 				}
 				elseif ($sslc == "yes" && $puc == "yes" && $cgpa == "yes")
 				{
-					//filter by sslc , puc and sgpa
+					//filter by sslc , puc and cgpa
+					$response['result']="failure";
+					$response['message']="filter by sslc , puc and cgpa";
+					echo json_encode($response);
 				}
 				elseif($sslc == "no" && $puc == "no" && $cgpa == "no")
 				{
 					//view all users
+					$response['result']="failure";
+					$response['message']="view all users";
+					echo json_encode($response);
 				}
 				else
 				{
@@ -183,7 +207,9 @@ class Adminapi extends CI_Controller
 		}
 		else
 		{
-			echo "empty request";
+			$response['result']="failure";
+			$response['message']="Empty Request";
+			echo json_encode($response);
 		}
 	}
 
