@@ -133,62 +133,79 @@ class Adminapi extends CI_Controller
 			$this->load->Model('Users');
 			if ($this->Users->is_admin($admin_email))
 			{
-				$this->load->Model('Users');
+				$this->load->Model('Marks');
 				if($sslc == "yes" && $puc == "no" && $cgpa == "no")
 				{
 					//filter by sslc only
-					$response['result']="failure";
-					$response['message']="filter by sslc only";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="filter by sslc only";
+//					echo json_encode($response);
+
+					$result=$this->Marks->filter_by_sslc($sslc_score);
 				}
 				elseif ($sslc == "no" && $puc == "yes" && $cgpa == "no")
 				{
 					//filter by puc only
-					$response['result']="failure";
-					$response['message']="filter by puc only";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="filter by puc only";
+//					echo json_encode($response);
+
+					$result=$this->Marks->filter_by_puc($puc_score);
 				}
 				elseif ($sslc == "no" && $puc == "no" && $cgpa == "yes")
 				{
 					//filter by cgpa only
-					$response['result']="failure";
-					$response['message']="filter by cgpa only";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="filter by cgpa only";
+//					echo json_encode($response);
+
+					$result=$this->Marks->filter_by_cgpa($cgpa_score);
+
 				}
 				elseif ($sslc == "yes" && $puc == "yes" && $cgpa == "no")
 				{
 					//filter by sslc and puc only
-					$response['result']="failure";
-					$response['message']="filter by sslc and puc only";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="filter by sslc and puc only";
+//					echo json_encode($response);
+
+					$result=$this->Marks->filter_by_sslc_and_puc($sslc_score,$puc_score);
 				}
 				elseif ($sslc == "yes" && $puc == "no" && $cgpa == "yes")
 				{
 					//filter by sslc and cgpa only
-					$response['result']="failure";
-					$response['message']="filter by sslc and cgpa only";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="filter by sslc and cgpa only";
+//					echo json_encode($response);
+
+					$result=$this->Marks->filter_by_sslc_and_cgpa($sslc_score,$cgpa_score);
 				}
 				elseif ($sslc == "no" && $puc == "yes" && $cgpa == "yes")
 				{
 					//filter by puc and cgpa only
-					$response['result']="failure";
-					$response['message']="filter by puc and cgpa only";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="filter by puc and cgpa only";
+//					echo json_encode($response);
+
+					$result=$this->Marks->filter_by_puc_and_cgpa($puc_score,$cgpa_score);
 				}
 				elseif ($sslc == "yes" && $puc == "yes" && $cgpa == "yes")
 				{
 					//filter by sslc , puc and cgpa
-					$response['result']="failure";
-					$response['message']="filter by sslc , puc and cgpa";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="filter by sslc , puc and cgpa";
+//					echo json_encode($response);
+
+					$result=$this->Marks->filter_by_sslc_and_puc_and_cgpa($sslc_score,$puc_score,$cgpa_score);
 				}
 				elseif($sslc == "no" && $puc == "no" && $cgpa == "no")
 				{
 					//view all users
-					$response['result']="failure";
-					$response['message']="view all users";
-					echo json_encode($response);
+//					$response['result']="failure";
+//					$response['message']="view all users";
+//					echo json_encode($response);
+
+					$result=$this->Marks->view_all_users();
 				}
 				else
 				{
@@ -196,7 +213,31 @@ class Adminapi extends CI_Controller
 					$response['result']="failure";
 					$response['message']="Invalid Params";
 					echo json_encode($response);
+					return;
 				}
+				$i=0;
+				$response['result']="success";
+				foreach ($result->result() as $row)
+				{
+					$response['user_name'.$i]=$row->user_name;
+					$response['user_email'.$i]=$row->user_email;
+					$response['user_usn'.$i]=$row->user_usn;
+					$response['user_phone'.$i]=$row->user_phone;
+					$response['user_device'.$i]=$row->user_device;
+					$response['sslc'.$i]=$row->sslc;
+					$response['puc'.$i]=$row->puc;
+					$response['sem1'.$i]=$row->sem1;
+					$response['sem2'.$i]=$row->sem2;
+					$response['sem3'.$i]=$row->sem3;
+					$response['sem4'.$i]=$row->sem4;
+					$response['sem5'.$i]=$row->sem5;
+					$response['sem6'.$i]=$row->sem6;
+					$response['sem7'.$i]=$row->sem7;
+					$response['cgpa'.$i]=$row->cgpa;
+					$i++;
+				}
+				$response['size']=$i;
+				echo json_encode($response);
 			}
 			else
 			{
