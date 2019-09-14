@@ -406,14 +406,16 @@ class Userapi extends CI_Controller {
 		$sem6=$this->input->post('sem6');
 		$sem7=$this->input->post('sem7');
 		$cgpa=$this->input->post('cgpa');
+		$phone=$this->input->post('phone');
 
 
-		if($user_email != null && $user_name != null && $user_usn != null && $sslc != null && $puc != null && $sem1 != null && $sem2 != null && $sem3 != null && $sem4 != null && $sem5 != null && $sem6 != null && $sem7 != null && $cgpa != null)
+		if($user_email != null && $user_name != null && $user_usn != null && $sslc != null && $puc != null && $sem1 != null && $sem2 != null && $sem3 != null && $sem4 != null && $sem5 != null && $sem6 != null && $sem7 != null && $cgpa != null && $phone != null)
 		{
 			//update name and usn
 			$data = array(
 				'user_name'=> $user_name,
-				'user_usn' => $user_usn
+				'user_usn' => $user_usn,
+				'user_phone' => $phone
 			);
 			$this->load->model('Users');
 			$this->Users->update_name_and_usn($data,$user_email);
