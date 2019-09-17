@@ -159,6 +159,7 @@ class Users extends CI_Model {
     {
         $this->db->select('*');
         $this->db->where('user_email',$email);
+		$this->db->where('user_role',1);
         $result=$this->db->get("users");
         if($result->num_rows() > 0)
         {

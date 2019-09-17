@@ -23,6 +23,7 @@ class Notifications extends CI_Model {
     {
         $this->db->select('*');
         $this->db->order_by('timestamp','DESC');
+        $this->db->where('is_deleted',0);
         $result=$this->db->get("notifications");
         return $result;
     }

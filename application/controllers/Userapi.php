@@ -247,6 +247,11 @@ class Userapi extends CI_Controller {
                         $i++;
                     }
                     $response['size']=$i;
+					$this->load->model('Users');
+					if($this->Users->is_admin($user_email))
+						$response['user_role']="1";
+					else
+						$response['user_role']="0";
                     echo json_encode($response);
                 }
                 else
