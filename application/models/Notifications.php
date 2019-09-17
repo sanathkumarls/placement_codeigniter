@@ -33,4 +33,14 @@ class Notifications extends CI_Model {
         $this->db->insert("notifications",$data);
     }
 
+    function  delete_notification($id,$data)
+	{
+		$this->db->where('id',$id);
+		if($this->db->update('notifications',$data))
+		{
+			return true;
+		}
+		return false;
+	}
+
 }

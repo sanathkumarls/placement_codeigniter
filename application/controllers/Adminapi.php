@@ -254,6 +254,26 @@ class Adminapi extends CI_Controller
 		}
 	}
 
+	public function delete_notification()
+	{
+		$id=$this->input->post('id');
+		$data=array(
+			'is_deleted' => '1'
+		);
+		$this->load->Model('Notifications');
+		if($this->Notifications->delete_notification($id,$data))
+		{
+			$response['result']="success";
+			echo json_encode($response);
+		}
+		else
+		{
+			$response['result']="failure";
+			$response['message']="Delete Failed";
+			echo json_encode($response);
+		}
+	}
+
 	public function version()
 	{
 		$result['versioncode']=1;

@@ -244,6 +244,7 @@ class Userapi extends CI_Controller {
                         $response['title'.$i]=$row->title;
                         $response['description'.$i]=$row->description;
                         $response['link'.$i]=$row->link;
+						$response['id'.$i]=$row->id;
                         $i++;
                     }
                     $response['size']=$i;
