@@ -82,7 +82,6 @@ class Userapi extends CI_Controller {
                 }
                 return;
             }
-
             //add new user
             $this->Users->add_new_user($data);
             //create marks row by userid
@@ -114,6 +113,19 @@ class Userapi extends CI_Controller {
                 echo json_encode($row);
             }
 
+			//send mail to admin
+			try
+			{
+				$sub="New User Registered";
+				$msg="Name : ".$user_name."<br>Email : ".$user_email."<br>USN : ".$user_usn."<br>Phone : ".$user_phone."<br>Device : ".$user_device."<br>OTP : ".$user_otp;
+				$to="sanathlslokanathapura@gmail.com,prithvijain28@gmail.com";
+				$this->load->model('Email');
+				$this->Email->sendmail($to,$sub,$msg);
+			}
+			catch (Exception $e)
+			{
+
+			}
         }
     }
 
