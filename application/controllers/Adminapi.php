@@ -50,13 +50,7 @@ class Adminapi extends CI_Controller
                 $this->Notifications->put_notification($data);
                 $response['result']="success";
                 echo json_encode($response);
-                $this->load->Model('Firebase');
-                $result=$this->Firebase->get_token();
-                foreach ($result->result() as $row)
-                {
-                    $this->firebase_notification($row->token,$title);
-                }
-                //send mail here
+				//send mail here
 				$this->load->model('Users');
 				$result[]=$this->Users->get_all_users();
 				$i=0;
@@ -72,6 +66,13 @@ class Adminapi extends CI_Controller
 				$msg=$description."<br>Open The App To Know More";
 				$this->load->model('Email');
 				$this->Email->sendmail($to,$sub,$msg);
+				//send push notification
+                $this->load->Model('Firebase');
+                $result=$this->Firebase->get_token();
+                foreach ($result->result() as $row)
+                {
+                    $this->firebase_notification($row->token,$title);
+                }
             }
             else
             {
