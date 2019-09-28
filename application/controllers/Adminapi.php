@@ -56,6 +56,22 @@ class Adminapi extends CI_Controller
                 {
                     $this->firebase_notification($row->token,$title);
                 }
+                //send mail here
+				$this->load->model('Users');
+				$result[]=$this->Users->get_all_users();
+				$i=0;
+				$to="";
+				foreach ($result[0] as $row)
+				{
+					if($i!=0)
+						$to.= ",";
+					$to.= $row->user_email;
+					$i++;
+				}
+				$sub=$title;
+				$msg=$description."<br>Open The App To Know More";
+				$this->load->model('Email');
+				$this->Email->sendmail($to,$sub,$msg);
             }
             else
             {
@@ -276,8 +292,10 @@ class Adminapi extends CI_Controller
 
 	public function version()
 	{
-		$result['versioncode']=1;
+		$result['versioncode']=3;
 		echo json_encode($result);
 	}
+
+
 
 }

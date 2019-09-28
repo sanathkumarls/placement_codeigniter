@@ -171,6 +171,14 @@ class Users extends CI_Model {
         }
     }
 
+    public function get_all_users()
+	{
+		$this->db->select('*');
+		$this->db->where('isactive',1);
+		$result= $this->db->get("users");
+		return $result->result();
+	}
+
 
 
 }
